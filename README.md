@@ -1,4 +1,4 @@
-# WIP Data Model
+# 🚧 WIP Theoria Data Model
 This is a repo that has been created to kick off discussions for the data model of the Theoria app.
 The initial data model is by no means correct or complete. It's just illustrative and a potential place to start.
 
