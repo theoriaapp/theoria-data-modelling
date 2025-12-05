@@ -1,0 +1,414 @@
+// prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+//// ENUMS //////////////////////////////////////////////////////////////
+
+enum Role {
+  USER
+  EDITOR
+  ADMIN
+}
+
+enum JourneyStage {
+  ENQUIRER
+  BELIEVER
+}
+
+enum ContentType {
+  PRAYER
+  MEDITATION
+  READING
+  PLAYLIST
+  BIBLE_PLAN_DAY
+  QUOTE
+  ARTICLE
+}
+
+enum ContentStatus {
+  DRAFT
+  PENDING_REVIEW
+  PUBLISHED
+  ARCHIVED
+}
+
+enum ReadingType {
+  OT
+  NT
+  PSALM
+  GOSPEL
+  EPISTLE
+  OTHER
+}
+
+enum TagType {
+  GENERAL
+  MOOD
+  TOPIC
+  FEAST
+  SEASON
+}
+
+enum PlanStatus {
+  NOT_STARTED
+  ACTIVE
+  COMPLETED
+}
+
+enum ConfessionFrequency {
+  WEEKLY
+  MONTHLY
+  CUSTOM
+}
+
+//// CORE USERS /////////////////////////////////////////////////////////
+
+model User {
+  id           String        @id @default(cuid())
+  email        String?       @unique
+  phone        String?       @unique
+  name         String?
+  avatarUrl    String?
+  role         Role          @default(USER)
+
+  // Onboarding & profile
+  journeyStage JourneyStage?
+  challenges   UserChallenge[]
+  goals        UserGoal[]
+  preferences  Json?
+
+  // Spiritual journey
+  streaks         PrayerStreak[]
+  prayerRoutines  PrayerRoutine[]
+  confessionGoal  ConfessionGoal?
+  confessions     ConfessionEntry[]
+  reflections     Reflection[]
+  favorites       Favorite[]
+  histories       ContentHistory[]
+  planMemberships PlanMembership[]
+
+  // Content relationships (admin/editor)
+  createdContent  Content[] @relation("ContentCreatedBy")
+  reviewedContent Content[] @relation("ContentReviewedBy")
+
+  // Admin / meta
+  adminActivities AdminActivity[]
+  announcements   Announcement[] @relation("AnnouncementCreatedBy")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model UserChallenge {
+  id     String @id @default(cuid())
+  label  String
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model UserGoal {
+  id     String @id @default(cuid())
+  label  String
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+//// CONTENT & TAXONOMIES ///////////////////////////////////////////////
+
+model Content {
+  id          String        @id @default(cuid())
+  title       String
+  slug        String        @unique
+  type        ContentType
+  status      ContentStatus @default(DRAFT)
+  shortTitle  String?
+  subtitle    String?
+  excerpt     String?
+  body        Json?
+  durationMin Int?
+  imageUrl    String?
+  audioUrl    String?
+  videoUrl    String?
+
+  readingType    ReadingType?
+  scriptureRef   String?
+  feastName      String?
+  liturgicalDay  String?
+  estimatedOrder Int?
+
+  tags        ContentTagOnContent[]
+  categories  ContentCategoryOnContent[]
+  planDays    PlanDayContent[]
+  favorites   Favorite[]
+  histories   ContentHistory[]
+  reflections Reflection[]
+
+  // 🔽 ADD THIS LINE
+  prayerRoutineSlots PrayerRoutineSlot[]
+
+  createdById  String?
+  createdBy    User? @relation("ContentCreatedBy", fields: [createdById], references: [id])
+  reviewedById String?
+  reviewedBy   User? @relation("ContentReviewedBy", fields: [reviewedById], references: [id])
+
+  publishedAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+
+model Tag {
+  id    String  @id @default(cuid())
+  name  String
+  slug  String  @unique
+  type  TagType @default(GENERAL)
+
+  contents ContentTagOnContent[]
+}
+
+model ContentTagOnContent {
+  contentId String
+  tagId     String
+
+  content Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  tag     Tag     @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([contentId, tagId])
+}
+
+model Category {
+  id          String     @id @default(cuid())
+  name        String
+  slug        String     @unique
+  description String?
+
+  parentId String?
+  parent   Category? @relation("CategoryToParent", fields: [parentId], references: [id])
+  children Category[] @relation("CategoryToParent")
+
+  contents ContentCategoryOnContent[]
+}
+
+model ContentCategoryOnContent {
+  contentId  String
+  categoryId String
+
+  content  Content  @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([contentId, categoryId])
+}
+
+//// BIBLE PLANS & PROGRESS /////////////////////////////////////////////
+
+model BiblePlan {
+  id          String      @id @default(cuid())
+  title       String
+  slug        String      @unique
+  description String?
+  imageUrl    String?
+  totalDays   Int
+
+  days      PlanDay[]
+  members   PlanMembership[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PlanDay {
+  id            String           @id @default(cuid())
+  dayNumber     Int
+  title         String?
+  scriptureRef  String?
+  summary       String?
+  planId        String
+  plan          BiblePlan        @relation(fields: [planId], references: [id], onDelete: Cascade)
+  contents      PlanDayContent[]
+  reflections   Reflection[]
+  completions   PlanDayCompletion[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([planId, dayNumber])
+}
+
+model PlanDayContent {
+  id        String  @id @default(cuid())
+  order     Int     @default(0)
+  planDayId String
+  contentId String
+
+  planDay PlanDay @relation(fields: [planDayId], references: [id], onDelete: Cascade)
+  content Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
+}
+
+model PlanMembership {
+  id         String     @id @default(cuid())
+  userId     String
+  planId     String
+  status     PlanStatus @default(NOT_STARTED)
+  startedAt  DateTime?
+  completedAt DateTime?
+  currentDay Int?       // e.g. last completed or next day index
+
+  user User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plan BiblePlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+
+  completions PlanDayCompletion[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, planId])
+}
+
+model PlanDayCompletion {
+  id             String         @id @default(cuid())
+  membershipId   String
+  planDayId      String
+  completedAt    DateTime       @default(now())
+
+  membership PlanMembership @relation(fields: [membershipId], references: [id], onDelete: Cascade)
+  planDay    PlanDay        @relation(fields: [planDayId], references: [id], onDelete: Cascade)
+
+  @@unique([membershipId, planDayId])
+}
+
+//// PERSONALISATION: FAVORITES, HISTORY, REFLECTIONS ///////////////////
+
+model Favorite {
+  userId    String
+  contentId String
+  createdAt DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  content Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
+
+  @@id([userId, contentId])
+}
+
+model ContentHistory {
+  id         String   @id @default(cuid())
+  userId     String
+  contentId  String
+  lastViewed DateTime @default(now())
+  completedAt DateTime?
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  content Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, contentId])
+}
+
+model Reflection {
+  id        String   @id @default(cuid())
+  body      String
+  userId    String
+  contentId String?
+  planDayId String?
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  content Content? @relation(fields: [contentId], references: [id])
+  planDay PlanDay? @relation(fields: [planDayId], references: [id])
+
+  createdAt DateTime @default(now())
+}
+
+//// PRAYER ROUTINES & STREAKS //////////////////////////////////////////
+
+model PrayerRoutine {
+  id        String              @id @default(cuid())
+  userId    String
+  name      String              @default("My Prayer Routine")
+  isActive  Boolean             @default(true)
+
+  user  User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  slots PrayerRoutineSlot[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PrayerRoutineSlot {
+  id          String   @id @default(cuid())
+  routineId   String
+  label       String?  // e.g. "Prime Hour", "Evening Prayer"
+  timeOfDay   String   // store as "06:00", "21:30" etc.
+  contentId   String?
+  durationMin Int?
+
+  routine PrayerRoutine @relation(fields: [routineId], references: [id], onDelete: Cascade)
+  content Content?      @relation(fields: [contentId], references: [id])
+
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+model PrayerStreak {
+  id               String   @id @default(cuid())
+  userId           String   @unique
+  goalDays         Int?     // e.g. 30-day goal
+  currentStreak    Int      @default(0)
+  longestStreak    Int      @default(0)
+  lastActivityDate DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+//// CONFESSION CALENDAR ////////////////////////////////////////////////
+
+model ConfessionGoal {
+  id               String             @id @default(cuid())
+  userId           String             @unique
+  frequency        ConfessionFrequency
+  customIntervalWk Int?              // for CUSTOM
+  nextConfession   DateTime?
+  remindBeforeDays Int?              // e.g. 2 days before
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ConfessionEntry {
+  id                String   @id @default(cuid())
+  userId            String
+  confessionDate    DateTime
+  notes             String?
+  isDelayed         Boolean  @default(false)
+  createdAt         DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+//// ADMIN PANEL: MODERATION & ANNOUNCEMENTS ////////////////////////////
+
+model AdminActivity {
+  id        String   @id @default(cuid())
+  adminId   String
+  action    String   // e.g. "CONTENT_PUBLISHED"
+  meta      Json?
+  createdAt DateTime @default(now())
+
+  admin User @relation(fields: [adminId], references: [id], onDelete: Cascade)
+}
+
+model Announcement {
+  id          String   @id @default(cuid())
+  title       String
+  body        String
+  publishedAt DateTime?
+  createdById String?
+
+  createdBy User? @relation("AnnouncementCreatedBy", fields: [createdById], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

@@ -1,0 +1,2417 @@
+{
+  "tables": {
+    "User": {
+      "name": "User",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        },
+        "phone": {
+          "name": "phone",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        },
+        "avatarUrl": {
+          "name": "avatarUrl",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        },
+        "role": {
+          "name": "role",
+          "type": "Role",
+          "default": "USER",
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "journeyStage": {
+          "name": "journeyStage",
+          "type": "JourneyStage",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        },
+        "preferences": {
+          "name": "preferences",
+          "type": "jsonb",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp(3)",
+          "default": "CURRENT_TIMESTAMP",
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp(3)",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        }
+      },
+      "comment": null,
+      "indexes": {
+        "User_pkey": {
+          "name": "User_pkey",
+          "unique": true,
+          "columns": [
+            "id"
+          ],
+          "type": ""
+        },
+        "User_email_key": {
+          "name": "User_email_key",
+          "unique": true,
+          "columns": [
+            "email"
+          ],
+          "type": ""
+        },
+        "User_phone_key": {
+          "name": "User_phone_key",
+          "unique": true,
+          "columns": [
+            "phone"
+          ],
+          "type": ""
+        }
+      },
+      "constraints": {
+        "PRIMARY_id": {
+          "type": "PRIMARY KEY",
+          "name": "PRIMARY_id",
+          "columnNames": [
+            "id"
+          ]
+        },
+        "UNIQUE_email": {
+          "type": "UNIQUE",
+          "name": "UNIQUE_email",
+          "columnNames": [
+            "email"
+          ]
+        },
+        "UNIQUE_phone": {
+          "type": "UNIQUE",
+          "name": "UNIQUE_phone",
+          "columnNames": [
+            "phone"
+          ]
+        }
+      }
+    },
+    "UserChallenge": {
+      "name": "UserChallenge",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "label": {
+          "name": "label",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "userId": {
+          "name": "userId",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        }
+      },
+      "comment": null,
+      "indexes": {
+        "UserChallenge_pkey": {
+          "name": "UserChallenge_pkey",
+          "unique": true,
+          "columns": [
+            "id"
+          ],
+          "type": ""
+        }
+      },
+      "constraints": {
+        "PRIMARY_id": {
+          "type": "PRIMARY KEY",
+          "name": "PRIMARY_id",
+          "columnNames": [
+            "id"
+          ]
+        },
+        "UserToUserChallenge": {
+          "type": "FOREIGN KEY",
+          "name": "UserToUserChallenge",
+          "columnNames": [
+            "userId"
+          ],
+          "targetTableName": "User",
+          "targetColumnNames": [
+            "id"
+          ],
+          "updateConstraint": "NO_ACTION",
+          "deleteConstraint": "CASCADE"
+        }
+      }
+    },
+    "UserGoal": {
+      "name": "UserGoal",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "label": {
+          "name": "label",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "userId": {
+          "name": "userId",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        }
+      },
+      "comment": null,
+      "indexes": {
+        "UserGoal_pkey": {
+          "name": "UserGoal_pkey",
+          "unique": true,
+          "columns": [
+            "id"
+          ],
+          "type": ""
+        }
+      },
+      "constraints": {
+        "PRIMARY_id": {
+          "type": "PRIMARY KEY",
+          "name": "PRIMARY_id",
+          "columnNames": [
+            "id"
+          ]
+        },
+        "UserToUserGoal": {
+          "type": "FOREIGN KEY",
+          "name": "UserToUserGoal",
+          "columnNames": [
+            "userId"
+          ],
+          "targetTableName": "User",
+          "targetColumnNames": [
+            "id"
+          ],
+          "updateConstraint": "NO_ACTION",
+          "deleteConstraint": "CASCADE"
+        }
+      }
+    },
+    "Content": {
+      "name": "Content",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "type": {
+          "name": "type",
+          "type": "ContentType",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "status": {
+          "name": "status",
+          "type": "ContentStatus",
+          "default": "DRAFT",
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "shortTitle": {
+          "name": "shortTitle",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        },
+        "subtitle": {
+          "name": "subtitle",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        },
+        "excerpt": {
+          "name": "excerpt",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        },
+        "body": {
+          "name": "body",
+          "type": "jsonb",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        },
+        "durationMin": {
+          "name": "durationMin",
+          "type": "integer",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        },
+        "imageUrl": {
+          "name": "imageUrl",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        },
+        "audioUrl": {
+          "name": "audioUrl",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        },
+        "videoUrl": {
+          "name": "videoUrl",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        },
+        "readingType": {
+          "name": "readingType",
+          "type": "ReadingType",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        },
+        "scriptureRef": {
+          "name": "scriptureRef",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        },
+        "feastName": {
+          "name": "feastName",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        },
+        "liturgicalDay": {
+          "name": "liturgicalDay",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        },
+        "estimatedOrder": {
+          "name": "estimatedOrder",
+          "type": "integer",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        },
+        "createdById": {
+          "name": "createdById",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        },
+        "reviewedById": {
+          "name": "reviewedById",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        },
+        "publishedAt": {
+          "name": "publishedAt",
+          "type": "timestamp(3)",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp(3)",
+          "default": "CURRENT_TIMESTAMP",
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp(3)",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        }
+      },
+      "comment": null,
+      "indexes": {
+        "Content_pkey": {
+          "name": "Content_pkey",
+          "unique": true,
+          "columns": [
+            "id"
+          ],
+          "type": ""
+        },
+        "Content_slug_key": {
+          "name": "Content_slug_key",
+          "unique": true,
+          "columns": [
+            "slug"
+          ],
+          "type": ""
+        }
+      },
+      "constraints": {
+        "PRIMARY_id": {
+          "type": "PRIMARY KEY",
+          "name": "PRIMARY_id",
+          "columnNames": [
+            "id"
+          ]
+        },
+        "UNIQUE_slug": {
+          "type": "UNIQUE",
+          "name": "UNIQUE_slug",
+          "columnNames": [
+            "slug"
+          ]
+        },
+        "ContentCreatedBy": {
+          "type": "FOREIGN KEY",
+          "name": "ContentCreatedBy",
+          "columnNames": [
+            "createdById"
+          ],
+          "targetTableName": "User",
+          "targetColumnNames": [
+            "id"
+          ],
+          "updateConstraint": "NO_ACTION",
+          "deleteConstraint": "NO_ACTION"
+        },
+        "ContentReviewedBy": {
+          "type": "FOREIGN KEY",
+          "name": "ContentReviewedBy",
+          "columnNames": [
+            "reviewedById"
+          ],
+          "targetTableName": "User",
+          "targetColumnNames": [
+            "id"
+          ],
+          "updateConstraint": "NO_ACTION",
+          "deleteConstraint": "NO_ACTION"
+        }
+      }
+    },
+    "Tag": {
+      "name": "Tag",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "type": {
+          "name": "type",
+          "type": "TagType",
+          "default": "GENERAL",
+          "notNull": true,
+          "comment": null,
+          "check": null
+        }
+      },
+      "comment": null,
+      "indexes": {
+        "Tag_pkey": {
+          "name": "Tag_pkey",
+          "unique": true,
+          "columns": [
+            "id"
+          ],
+          "type": ""
+        },
+        "Tag_slug_key": {
+          "name": "Tag_slug_key",
+          "unique": true,
+          "columns": [
+            "slug"
+          ],
+          "type": ""
+        }
+      },
+      "constraints": {
+        "PRIMARY_id": {
+          "type": "PRIMARY KEY",
+          "name": "PRIMARY_id",
+          "columnNames": [
+            "id"
+          ]
+        },
+        "UNIQUE_slug": {
+          "type": "UNIQUE",
+          "name": "UNIQUE_slug",
+          "columnNames": [
+            "slug"
+          ]
+        }
+      }
+    },
+    "ContentTagOnContent": {
+      "name": "ContentTagOnContent",
+      "columns": {
+        "contentId": {
+          "name": "contentId",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "tagId": {
+          "name": "tagId",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        }
+      },
+      "comment": null,
+      "indexes": {
+        "ContentTagOnContent_pkey": {
+          "name": "ContentTagOnContent_pkey",
+          "unique": true,
+          "columns": [
+            "contentId",
+            "tagId"
+          ],
+          "type": ""
+        }
+      },
+      "constraints": {
+        "ContentToContentTagOnContent": {
+          "type": "FOREIGN KEY",
+          "name": "ContentToContentTagOnContent",
+          "columnNames": [
+            "contentId"
+          ],
+          "targetTableName": "Content",
+          "targetColumnNames": [
+            "id"
+          ],
+          "updateConstraint": "NO_ACTION",
+          "deleteConstraint": "CASCADE"
+        },
+        "ContentTagOnContentToTag": {
+          "type": "FOREIGN KEY",
+          "name": "ContentTagOnContentToTag",
+          "columnNames": [
+            "tagId"
+          ],
+          "targetTableName": "Tag",
+          "targetColumnNames": [
+            "id"
+          ],
+          "updateConstraint": "NO_ACTION",
+          "deleteConstraint": "CASCADE"
+        }
+      }
+    },
+    "Category": {
+      "name": "Category",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        },
+        "parentId": {
+          "name": "parentId",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        }
+      },
+      "comment": null,
+      "indexes": {
+        "Category_pkey": {
+          "name": "Category_pkey",
+          "unique": true,
+          "columns": [
+            "id"
+          ],
+          "type": ""
+        },
+        "Category_slug_key": {
+          "name": "Category_slug_key",
+          "unique": true,
+          "columns": [
+            "slug"
+          ],
+          "type": ""
+        }
+      },
+      "constraints": {
+        "PRIMARY_id": {
+          "type": "PRIMARY KEY",
+          "name": "PRIMARY_id",
+          "columnNames": [
+            "id"
+          ]
+        },
+        "UNIQUE_slug": {
+          "type": "UNIQUE",
+          "name": "UNIQUE_slug",
+          "columnNames": [
+            "slug"
+          ]
+        },
+        "CategoryToParent": {
+          "type": "FOREIGN KEY",
+          "name": "CategoryToParent",
+          "columnNames": [
+            "parentId"
+          ],
+          "targetTableName": "Category",
+          "targetColumnNames": [
+            "id"
+          ],
+          "updateConstraint": "NO_ACTION",
+          "deleteConstraint": "NO_ACTION"
+        }
+      }
+    },
+    "ContentCategoryOnContent": {
+      "name": "ContentCategoryOnContent",
+      "columns": {
+        "contentId": {
+          "name": "contentId",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "categoryId": {
+          "name": "categoryId",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        }
+      },
+      "comment": null,
+      "indexes": {
+        "ContentCategoryOnContent_pkey": {
+          "name": "ContentCategoryOnContent_pkey",
+          "unique": true,
+          "columns": [
+            "contentId",
+            "categoryId"
+          ],
+          "type": ""
+        }
+      },
+      "constraints": {
+        "ContentToContentCategoryOnContent": {
+          "type": "FOREIGN KEY",
+          "name": "ContentToContentCategoryOnContent",
+          "columnNames": [
+            "contentId"
+          ],
+          "targetTableName": "Content",
+          "targetColumnNames": [
+            "id"
+          ],
+          "updateConstraint": "NO_ACTION",
+          "deleteConstraint": "CASCADE"
+        },
+        "CategoryToContentCategoryOnContent": {
+          "type": "FOREIGN KEY",
+          "name": "CategoryToContentCategoryOnContent",
+          "columnNames": [
+            "categoryId"
+          ],
+          "targetTableName": "Category",
+          "targetColumnNames": [
+            "id"
+          ],
+          "updateConstraint": "NO_ACTION",
+          "deleteConstraint": "CASCADE"
+        }
+      }
+    },
+    "BiblePlan": {
+      "name": "BiblePlan",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        },
+        "imageUrl": {
+          "name": "imageUrl",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        },
+        "totalDays": {
+          "name": "totalDays",
+          "type": "integer",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp(3)",
+          "default": "CURRENT_TIMESTAMP",
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp(3)",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        }
+      },
+      "comment": null,
+      "indexes": {
+        "BiblePlan_pkey": {
+          "name": "BiblePlan_pkey",
+          "unique": true,
+          "columns": [
+            "id"
+          ],
+          "type": ""
+        },
+        "BiblePlan_slug_key": {
+          "name": "BiblePlan_slug_key",
+          "unique": true,
+          "columns": [
+            "slug"
+          ],
+          "type": ""
+        }
+      },
+      "constraints": {
+        "PRIMARY_id": {
+          "type": "PRIMARY KEY",
+          "name": "PRIMARY_id",
+          "columnNames": [
+            "id"
+          ]
+        },
+        "UNIQUE_slug": {
+          "type": "UNIQUE",
+          "name": "UNIQUE_slug",
+          "columnNames": [
+            "slug"
+          ]
+        }
+      }
+    },
+    "PlanDay": {
+      "name": "PlanDay",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "dayNumber": {
+          "name": "dayNumber",
+          "type": "integer",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        },
+        "scriptureRef": {
+          "name": "scriptureRef",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        },
+        "summary": {
+          "name": "summary",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        },
+        "planId": {
+          "name": "planId",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp(3)",
+          "default": "CURRENT_TIMESTAMP",
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp(3)",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        }
+      },
+      "comment": null,
+      "indexes": {
+        "PlanDay_pkey": {
+          "name": "PlanDay_pkey",
+          "unique": true,
+          "columns": [
+            "id"
+          ],
+          "type": ""
+        },
+        "PlanDay_planId_dayNumber_key": {
+          "name": "PlanDay_planId_dayNumber_key",
+          "unique": true,
+          "columns": [
+            "planId",
+            "dayNumber"
+          ],
+          "type": ""
+        }
+      },
+      "constraints": {
+        "PRIMARY_id": {
+          "type": "PRIMARY KEY",
+          "name": "PRIMARY_id",
+          "columnNames": [
+            "id"
+          ]
+        },
+        "BiblePlanToPlanDay": {
+          "type": "FOREIGN KEY",
+          "name": "BiblePlanToPlanDay",
+          "columnNames": [
+            "planId"
+          ],
+          "targetTableName": "BiblePlan",
+          "targetColumnNames": [
+            "id"
+          ],
+          "updateConstraint": "NO_ACTION",
+          "deleteConstraint": "CASCADE"
+        }
+      }
+    },
+    "PlanDayContent": {
+      "name": "PlanDayContent",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "order": {
+          "name": "order",
+          "type": "integer",
+          "default": 0,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "planDayId": {
+          "name": "planDayId",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "contentId": {
+          "name": "contentId",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        }
+      },
+      "comment": null,
+      "indexes": {
+        "PlanDayContent_pkey": {
+          "name": "PlanDayContent_pkey",
+          "unique": true,
+          "columns": [
+            "id"
+          ],
+          "type": ""
+        }
+      },
+      "constraints": {
+        "PRIMARY_id": {
+          "type": "PRIMARY KEY",
+          "name": "PRIMARY_id",
+          "columnNames": [
+            "id"
+          ]
+        },
+        "PlanDayToPlanDayContent": {
+          "type": "FOREIGN KEY",
+          "name": "PlanDayToPlanDayContent",
+          "columnNames": [
+            "planDayId"
+          ],
+          "targetTableName": "PlanDay",
+          "targetColumnNames": [
+            "id"
+          ],
+          "updateConstraint": "NO_ACTION",
+          "deleteConstraint": "CASCADE"
+        },
+        "ContentToPlanDayContent": {
+          "type": "FOREIGN KEY",
+          "name": "ContentToPlanDayContent",
+          "columnNames": [
+            "contentId"
+          ],
+          "targetTableName": "Content",
+          "targetColumnNames": [
+            "id"
+          ],
+          "updateConstraint": "NO_ACTION",
+          "deleteConstraint": "CASCADE"
+        }
+      }
+    },
+    "PlanMembership": {
+      "name": "PlanMembership",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "userId": {
+          "name": "userId",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "planId": {
+          "name": "planId",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "status": {
+          "name": "status",
+          "type": "PlanStatus",
+          "default": "NOT_STARTED",
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "startedAt": {
+          "name": "startedAt",
+          "type": "timestamp(3)",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        },
+        "completedAt": {
+          "name": "completedAt",
+          "type": "timestamp(3)",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        },
+        "currentDay": {
+          "name": "currentDay",
+          "type": "integer",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp(3)",
+          "default": "CURRENT_TIMESTAMP",
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp(3)",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        }
+      },
+      "comment": null,
+      "indexes": {
+        "PlanMembership_pkey": {
+          "name": "PlanMembership_pkey",
+          "unique": true,
+          "columns": [
+            "id"
+          ],
+          "type": ""
+        },
+        "PlanMembership_userId_planId_key": {
+          "name": "PlanMembership_userId_planId_key",
+          "unique": true,
+          "columns": [
+            "userId",
+            "planId"
+          ],
+          "type": ""
+        }
+      },
+      "constraints": {
+        "PRIMARY_id": {
+          "type": "PRIMARY KEY",
+          "name": "PRIMARY_id",
+          "columnNames": [
+            "id"
+          ]
+        },
+        "PlanMembershipToUser": {
+          "type": "FOREIGN KEY",
+          "name": "PlanMembershipToUser",
+          "columnNames": [
+            "userId"
+          ],
+          "targetTableName": "User",
+          "targetColumnNames": [
+            "id"
+          ],
+          "updateConstraint": "NO_ACTION",
+          "deleteConstraint": "CASCADE"
+        },
+        "BiblePlanToPlanMembership": {
+          "type": "FOREIGN KEY",
+          "name": "BiblePlanToPlanMembership",
+          "columnNames": [
+            "planId"
+          ],
+          "targetTableName": "BiblePlan",
+          "targetColumnNames": [
+            "id"
+          ],
+          "updateConstraint": "NO_ACTION",
+          "deleteConstraint": "CASCADE"
+        }
+      }
+    },
+    "PlanDayCompletion": {
+      "name": "PlanDayCompletion",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "membershipId": {
+          "name": "membershipId",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "planDayId": {
+          "name": "planDayId",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "completedAt": {
+          "name": "completedAt",
+          "type": "timestamp(3)",
+          "default": "CURRENT_TIMESTAMP",
+          "notNull": true,
+          "comment": null,
+          "check": null
+        }
+      },
+      "comment": null,
+      "indexes": {
+        "PlanDayCompletion_pkey": {
+          "name": "PlanDayCompletion_pkey",
+          "unique": true,
+          "columns": [
+            "id"
+          ],
+          "type": ""
+        },
+        "PlanDayCompletion_membershipId_planDayId_key": {
+          "name": "PlanDayCompletion_membershipId_planDayId_key",
+          "unique": true,
+          "columns": [
+            "membershipId",
+            "planDayId"
+          ],
+          "type": ""
+        }
+      },
+      "constraints": {
+        "PRIMARY_id": {
+          "type": "PRIMARY KEY",
+          "name": "PRIMARY_id",
+          "columnNames": [
+            "id"
+          ]
+        },
+        "PlanDayCompletionToPlanMembership": {
+          "type": "FOREIGN KEY",
+          "name": "PlanDayCompletionToPlanMembership",
+          "columnNames": [
+            "membershipId"
+          ],
+          "targetTableName": "PlanMembership",
+          "targetColumnNames": [
+            "id"
+          ],
+          "updateConstraint": "NO_ACTION",
+          "deleteConstraint": "CASCADE"
+        },
+        "PlanDayToPlanDayCompletion": {
+          "type": "FOREIGN KEY",
+          "name": "PlanDayToPlanDayCompletion",
+          "columnNames": [
+            "planDayId"
+          ],
+          "targetTableName": "PlanDay",
+          "targetColumnNames": [
+            "id"
+          ],
+          "updateConstraint": "NO_ACTION",
+          "deleteConstraint": "CASCADE"
+        }
+      }
+    },
+    "Favorite": {
+      "name": "Favorite",
+      "columns": {
+        "userId": {
+          "name": "userId",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "contentId": {
+          "name": "contentId",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp(3)",
+          "default": "CURRENT_TIMESTAMP",
+          "notNull": true,
+          "comment": null,
+          "check": null
+        }
+      },
+      "comment": null,
+      "indexes": {
+        "Favorite_pkey": {
+          "name": "Favorite_pkey",
+          "unique": true,
+          "columns": [
+            "userId",
+            "contentId"
+          ],
+          "type": ""
+        }
+      },
+      "constraints": {
+        "FavoriteToUser": {
+          "type": "FOREIGN KEY",
+          "name": "FavoriteToUser",
+          "columnNames": [
+            "userId"
+          ],
+          "targetTableName": "User",
+          "targetColumnNames": [
+            "id"
+          ],
+          "updateConstraint": "NO_ACTION",
+          "deleteConstraint": "CASCADE"
+        },
+        "ContentToFavorite": {
+          "type": "FOREIGN KEY",
+          "name": "ContentToFavorite",
+          "columnNames": [
+            "contentId"
+          ],
+          "targetTableName": "Content",
+          "targetColumnNames": [
+            "id"
+          ],
+          "updateConstraint": "NO_ACTION",
+          "deleteConstraint": "CASCADE"
+        }
+      }
+    },
+    "ContentHistory": {
+      "name": "ContentHistory",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "userId": {
+          "name": "userId",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "contentId": {
+          "name": "contentId",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "lastViewed": {
+          "name": "lastViewed",
+          "type": "timestamp(3)",
+          "default": "CURRENT_TIMESTAMP",
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "completedAt": {
+          "name": "completedAt",
+          "type": "timestamp(3)",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        }
+      },
+      "comment": null,
+      "indexes": {
+        "ContentHistory_pkey": {
+          "name": "ContentHistory_pkey",
+          "unique": true,
+          "columns": [
+            "id"
+          ],
+          "type": ""
+        },
+        "ContentHistory_userId_contentId_key": {
+          "name": "ContentHistory_userId_contentId_key",
+          "unique": true,
+          "columns": [
+            "userId",
+            "contentId"
+          ],
+          "type": ""
+        }
+      },
+      "constraints": {
+        "PRIMARY_id": {
+          "type": "PRIMARY KEY",
+          "name": "PRIMARY_id",
+          "columnNames": [
+            "id"
+          ]
+        },
+        "ContentHistoryToUser": {
+          "type": "FOREIGN KEY",
+          "name": "ContentHistoryToUser",
+          "columnNames": [
+            "userId"
+          ],
+          "targetTableName": "User",
+          "targetColumnNames": [
+            "id"
+          ],
+          "updateConstraint": "NO_ACTION",
+          "deleteConstraint": "CASCADE"
+        },
+        "ContentToContentHistory": {
+          "type": "FOREIGN KEY",
+          "name": "ContentToContentHistory",
+          "columnNames": [
+            "contentId"
+          ],
+          "targetTableName": "Content",
+          "targetColumnNames": [
+            "id"
+          ],
+          "updateConstraint": "NO_ACTION",
+          "deleteConstraint": "CASCADE"
+        }
+      }
+    },
+    "Reflection": {
+      "name": "Reflection",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "body": {
+          "name": "body",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "userId": {
+          "name": "userId",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "contentId": {
+          "name": "contentId",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        },
+        "planDayId": {
+          "name": "planDayId",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp(3)",
+          "default": "CURRENT_TIMESTAMP",
+          "notNull": true,
+          "comment": null,
+          "check": null
+        }
+      },
+      "comment": null,
+      "indexes": {
+        "Reflection_pkey": {
+          "name": "Reflection_pkey",
+          "unique": true,
+          "columns": [
+            "id"
+          ],
+          "type": ""
+        }
+      },
+      "constraints": {
+        "PRIMARY_id": {
+          "type": "PRIMARY KEY",
+          "name": "PRIMARY_id",
+          "columnNames": [
+            "id"
+          ]
+        },
+        "ReflectionToUser": {
+          "type": "FOREIGN KEY",
+          "name": "ReflectionToUser",
+          "columnNames": [
+            "userId"
+          ],
+          "targetTableName": "User",
+          "targetColumnNames": [
+            "id"
+          ],
+          "updateConstraint": "NO_ACTION",
+          "deleteConstraint": "CASCADE"
+        },
+        "ContentToReflection": {
+          "type": "FOREIGN KEY",
+          "name": "ContentToReflection",
+          "columnNames": [
+            "contentId"
+          ],
+          "targetTableName": "Content",
+          "targetColumnNames": [
+            "id"
+          ],
+          "updateConstraint": "NO_ACTION",
+          "deleteConstraint": "NO_ACTION"
+        },
+        "PlanDayToReflection": {
+          "type": "FOREIGN KEY",
+          "name": "PlanDayToReflection",
+          "columnNames": [
+            "planDayId"
+          ],
+          "targetTableName": "PlanDay",
+          "targetColumnNames": [
+            "id"
+          ],
+          "updateConstraint": "NO_ACTION",
+          "deleteConstraint": "NO_ACTION"
+        }
+      }
+    },
+    "PrayerRoutine": {
+      "name": "PrayerRoutine",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "userId": {
+          "name": "userId",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "default": "My Prayer Routine",
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "isActive": {
+          "name": "isActive",
+          "type": "boolean",
+          "default": true,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp(3)",
+          "default": "CURRENT_TIMESTAMP",
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp(3)",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        }
+      },
+      "comment": null,
+      "indexes": {
+        "PrayerRoutine_pkey": {
+          "name": "PrayerRoutine_pkey",
+          "unique": true,
+          "columns": [
+            "id"
+          ],
+          "type": ""
+        }
+      },
+      "constraints": {
+        "PRIMARY_id": {
+          "type": "PRIMARY KEY",
+          "name": "PRIMARY_id",
+          "columnNames": [
+            "id"
+          ]
+        },
+        "PrayerRoutineToUser": {
+          "type": "FOREIGN KEY",
+          "name": "PrayerRoutineToUser",
+          "columnNames": [
+            "userId"
+          ],
+          "targetTableName": "User",
+          "targetColumnNames": [
+            "id"
+          ],
+          "updateConstraint": "NO_ACTION",
+          "deleteConstraint": "CASCADE"
+        }
+      }
+    },
+    "PrayerRoutineSlot": {
+      "name": "PrayerRoutineSlot",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "routineId": {
+          "name": "routineId",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "label": {
+          "name": "label",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        },
+        "timeOfDay": {
+          "name": "timeOfDay",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "contentId": {
+          "name": "contentId",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        },
+        "durationMin": {
+          "name": "durationMin",
+          "type": "integer",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        },
+        "order": {
+          "name": "order",
+          "type": "integer",
+          "default": 0,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp(3)",
+          "default": "CURRENT_TIMESTAMP",
+          "notNull": true,
+          "comment": null,
+          "check": null
+        }
+      },
+      "comment": null,
+      "indexes": {
+        "PrayerRoutineSlot_pkey": {
+          "name": "PrayerRoutineSlot_pkey",
+          "unique": true,
+          "columns": [
+            "id"
+          ],
+          "type": ""
+        }
+      },
+      "constraints": {
+        "PRIMARY_id": {
+          "type": "PRIMARY KEY",
+          "name": "PRIMARY_id",
+          "columnNames": [
+            "id"
+          ]
+        },
+        "PrayerRoutineToPrayerRoutineSlot": {
+          "type": "FOREIGN KEY",
+          "name": "PrayerRoutineToPrayerRoutineSlot",
+          "columnNames": [
+            "routineId"
+          ],
+          "targetTableName": "PrayerRoutine",
+          "targetColumnNames": [
+            "id"
+          ],
+          "updateConstraint": "NO_ACTION",
+          "deleteConstraint": "CASCADE"
+        },
+        "ContentToPrayerRoutineSlot": {
+          "type": "FOREIGN KEY",
+          "name": "ContentToPrayerRoutineSlot",
+          "columnNames": [
+            "contentId"
+          ],
+          "targetTableName": "Content",
+          "targetColumnNames": [
+            "id"
+          ],
+          "updateConstraint": "NO_ACTION",
+          "deleteConstraint": "NO_ACTION"
+        }
+      }
+    },
+    "PrayerStreak": {
+      "name": "PrayerStreak",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "userId": {
+          "name": "userId",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "goalDays": {
+          "name": "goalDays",
+          "type": "integer",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        },
+        "currentStreak": {
+          "name": "currentStreak",
+          "type": "integer",
+          "default": 0,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "longestStreak": {
+          "name": "longestStreak",
+          "type": "integer",
+          "default": 0,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "lastActivityDate": {
+          "name": "lastActivityDate",
+          "type": "timestamp(3)",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        }
+      },
+      "comment": null,
+      "indexes": {
+        "PrayerStreak_pkey": {
+          "name": "PrayerStreak_pkey",
+          "unique": true,
+          "columns": [
+            "id"
+          ],
+          "type": ""
+        },
+        "PrayerStreak_userId_key": {
+          "name": "PrayerStreak_userId_key",
+          "unique": true,
+          "columns": [
+            "userId"
+          ],
+          "type": ""
+        }
+      },
+      "constraints": {
+        "PRIMARY_id": {
+          "type": "PRIMARY KEY",
+          "name": "PRIMARY_id",
+          "columnNames": [
+            "id"
+          ]
+        },
+        "UNIQUE_userId": {
+          "type": "UNIQUE",
+          "name": "UNIQUE_userId",
+          "columnNames": [
+            "userId"
+          ]
+        },
+        "PrayerStreakToUser": {
+          "type": "FOREIGN KEY",
+          "name": "PrayerStreakToUser",
+          "columnNames": [
+            "userId"
+          ],
+          "targetTableName": "User",
+          "targetColumnNames": [
+            "id"
+          ],
+          "updateConstraint": "NO_ACTION",
+          "deleteConstraint": "CASCADE"
+        }
+      }
+    },
+    "ConfessionGoal": {
+      "name": "ConfessionGoal",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "userId": {
+          "name": "userId",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "frequency": {
+          "name": "frequency",
+          "type": "ConfessionFrequency",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "customIntervalWk": {
+          "name": "customIntervalWk",
+          "type": "integer",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        },
+        "nextConfession": {
+          "name": "nextConfession",
+          "type": "timestamp(3)",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        },
+        "remindBeforeDays": {
+          "name": "remindBeforeDays",
+          "type": "integer",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        }
+      },
+      "comment": null,
+      "indexes": {
+        "ConfessionGoal_pkey": {
+          "name": "ConfessionGoal_pkey",
+          "unique": true,
+          "columns": [
+            "id"
+          ],
+          "type": ""
+        },
+        "ConfessionGoal_userId_key": {
+          "name": "ConfessionGoal_userId_key",
+          "unique": true,
+          "columns": [
+            "userId"
+          ],
+          "type": ""
+        }
+      },
+      "constraints": {
+        "PRIMARY_id": {
+          "type": "PRIMARY KEY",
+          "name": "PRIMARY_id",
+          "columnNames": [
+            "id"
+          ]
+        },
+        "UNIQUE_userId": {
+          "type": "UNIQUE",
+          "name": "UNIQUE_userId",
+          "columnNames": [
+            "userId"
+          ]
+        },
+        "ConfessionGoalToUser": {
+          "type": "FOREIGN KEY",
+          "name": "ConfessionGoalToUser",
+          "columnNames": [
+            "userId"
+          ],
+          "targetTableName": "User",
+          "targetColumnNames": [
+            "id"
+          ],
+          "updateConstraint": "NO_ACTION",
+          "deleteConstraint": "CASCADE"
+        }
+      }
+    },
+    "ConfessionEntry": {
+      "name": "ConfessionEntry",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "userId": {
+          "name": "userId",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "confessionDate": {
+          "name": "confessionDate",
+          "type": "timestamp(3)",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "notes": {
+          "name": "notes",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        },
+        "isDelayed": {
+          "name": "isDelayed",
+          "type": "boolean",
+          "default": false,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp(3)",
+          "default": "CURRENT_TIMESTAMP",
+          "notNull": true,
+          "comment": null,
+          "check": null
+        }
+      },
+      "comment": null,
+      "indexes": {
+        "ConfessionEntry_pkey": {
+          "name": "ConfessionEntry_pkey",
+          "unique": true,
+          "columns": [
+            "id"
+          ],
+          "type": ""
+        }
+      },
+      "constraints": {
+        "PRIMARY_id": {
+          "type": "PRIMARY KEY",
+          "name": "PRIMARY_id",
+          "columnNames": [
+            "id"
+          ]
+        },
+        "ConfessionEntryToUser": {
+          "type": "FOREIGN KEY",
+          "name": "ConfessionEntryToUser",
+          "columnNames": [
+            "userId"
+          ],
+          "targetTableName": "User",
+          "targetColumnNames": [
+            "id"
+          ],
+          "updateConstraint": "NO_ACTION",
+          "deleteConstraint": "CASCADE"
+        }
+      }
+    },
+    "AdminActivity": {
+      "name": "AdminActivity",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "adminId": {
+          "name": "adminId",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "action": {
+          "name": "action",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "meta": {
+          "name": "meta",
+          "type": "jsonb",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp(3)",
+          "default": "CURRENT_TIMESTAMP",
+          "notNull": true,
+          "comment": null,
+          "check": null
+        }
+      },
+      "comment": null,
+      "indexes": {
+        "AdminActivity_pkey": {
+          "name": "AdminActivity_pkey",
+          "unique": true,
+          "columns": [
+            "id"
+          ],
+          "type": ""
+        }
+      },
+      "constraints": {
+        "PRIMARY_id": {
+          "type": "PRIMARY KEY",
+          "name": "PRIMARY_id",
+          "columnNames": [
+            "id"
+          ]
+        },
+        "AdminActivityToUser": {
+          "type": "FOREIGN KEY",
+          "name": "AdminActivityToUser",
+          "columnNames": [
+            "adminId"
+          ],
+          "targetTableName": "User",
+          "targetColumnNames": [
+            "id"
+          ],
+          "updateConstraint": "NO_ACTION",
+          "deleteConstraint": "CASCADE"
+        }
+      }
+    },
+    "Announcement": {
+      "name": "Announcement",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "body": {
+          "name": "body",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "publishedAt": {
+          "name": "publishedAt",
+          "type": "timestamp(3)",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        },
+        "createdById": {
+          "name": "createdById",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "comment": null,
+          "check": null
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp(3)",
+          "default": "CURRENT_TIMESTAMP",
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp(3)",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        }
+      },
+      "comment": null,
+      "indexes": {
+        "Announcement_pkey": {
+          "name": "Announcement_pkey",
+          "unique": true,
+          "columns": [
+            "id"
+          ],
+          "type": ""
+        }
+      },
+      "constraints": {
+        "PRIMARY_id": {
+          "type": "PRIMARY KEY",
+          "name": "PRIMARY_id",
+          "columnNames": [
+            "id"
+          ]
+        },
+        "AnnouncementCreatedBy": {
+          "type": "FOREIGN KEY",
+          "name": "AnnouncementCreatedBy",
+          "columnNames": [
+            "createdById"
+          ],
+          "targetTableName": "User",
+          "targetColumnNames": [
+            "id"
+          ],
+          "updateConstraint": "NO_ACTION",
+          "deleteConstraint": "NO_ACTION"
+        }
+      }
+    },
+    "_CategoryToCategory": {
+      "name": "_CategoryToCategory",
+      "constraints": {
+        "_CategoryToCategory_A_fkey": {
+          "type": "FOREIGN KEY",
+          "name": "_CategoryToCategory_A_fkey",
+          "columnNames": [
+            "A"
+          ],
+          "targetTableName": "Category",
+          "targetColumnNames": [
+            "id"
+          ],
+          "updateConstraint": "CASCADE",
+          "deleteConstraint": "CASCADE"
+        },
+        "_CategoryToCategory_B_fkey": {
+          "type": "FOREIGN KEY",
+          "name": "_CategoryToCategory_B_fkey",
+          "columnNames": [
+            "B"
+          ],
+          "targetTableName": "Category",
+          "targetColumnNames": [
+            "id"
+          ],
+          "updateConstraint": "CASCADE",
+          "deleteConstraint": "CASCADE"
+        }
+      },
+      "columns": {
+        "A": {
+          "name": "A",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "B": {
+          "name": "B",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        }
+      },
+      "comment": null,
+      "indexes": {
+        "_CategoryToCategory_AB_pkey": {
+          "name": "_CategoryToCategory_AB_pkey",
+          "unique": true,
+          "columns": [
+            "A",
+            "B"
+          ],
+          "type": ""
+        },
+        "_CategoryToCategory_B_index": {
+          "name": "_CategoryToCategory_B_index",
+          "unique": false,
+          "columns": [
+            "B"
+          ],
+          "type": ""
+        }
+      }
+    }
+  },
+  "enums": {
+    "Role": {
+      "name": "Role",
+      "values": [
+        "USER",
+        "EDITOR",
+        "ADMIN"
+      ],
+      "comment": null
+    },
+    "JourneyStage": {
+      "name": "JourneyStage",
+      "values": [
+        "ENQUIRER",
+        "BELIEVER"
+      ],
+      "comment": null
+    },
+    "ContentType": {
+      "name": "ContentType",
+      "values": [
+        "PRAYER",
+        "MEDITATION",
+        "READING",
+        "PLAYLIST",
+        "BIBLE_PLAN_DAY",
+        "QUOTE",
+        "ARTICLE"
+      ],
+      "comment": null
+    },
+    "ContentStatus": {
+      "name": "ContentStatus",
+      "values": [
+        "DRAFT",
+        "PENDING_REVIEW",
+        "PUBLISHED",
+        "ARCHIVED"
+      ],
+      "comment": null
+    },
+    "ReadingType": {
+      "name": "ReadingType",
+      "values": [
+        "OT",
+        "NT",
+        "PSALM",
+        "GOSPEL",
+        "EPISTLE",
+        "OTHER"
+      ],
+      "comment": null
+    },
+    "TagType": {
+      "name": "TagType",
+      "values": [
+        "GENERAL",
+        "MOOD",
+        "TOPIC",
+        "FEAST",
+        "SEASON"
+      ],
+      "comment": null
+    },
+    "PlanStatus": {
+      "name": "PlanStatus",
+      "values": [
+        "NOT_STARTED",
+        "ACTIVE",
+        "COMPLETED"
+      ],
+      "comment": null
+    },
+    "ConfessionFrequency": {
+      "name": "ConfessionFrequency",
+      "values": [
+        "WEEKLY",
+        "MONTHLY",
+        "CUSTOM"
+      ],
+      "comment": null
+    }
+  },
+  "extensions": {}
+}
